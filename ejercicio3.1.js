@@ -7,7 +7,6 @@ const input1 = [
     'capture',
     'mp4',
     ]
-    // create your function here:
 
 const fileName = (list) => {
     //Obtener el ultimo elemento que será la extensión mp4
@@ -75,3 +74,9 @@ const fileExtension2 = (list) => {
 }
 
 console.log (fileExtension2(input3))
+
+console.log('--------------------');
+
+console.log (fileName(input1))
+console.log (fileName(input2))
+console.log (fileName(input3))

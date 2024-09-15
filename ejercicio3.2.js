@@ -1,8 +1,6 @@
-/*Creaunafunciónparaqueconestosdatosdeentradaseproduzcalossiguientes
- resultados:*/
 
- const input = 10;
- //yourFunction(input); // '1-0'
+const input = 10;
+//yourFunction(input); // '1-0'
 
 const firstFunction = number => {
     let numberStr = number.toString().split('').join('-');
