@@ -43,20 +43,36 @@ const musicCatalog = () => {
    * Removes a playlist from the catalog.
    * @param {string} playlistName - The name of the playlist to remove.
    */
-    const removePlaylist = (playlistName) => {
-      playlists = playlists.filter(playlist => playlist.name !== playlistName
-        /*if (playlist.name === playlistName) return false;
-        return true*/
-      );
-    
-
+  const removePlaylist = (playlistName) => {
+    playlists = playlists.filter(playlist => playlist.name !== playlistName);
+  };
+  
+        
   /**
    * Adds a song to a specific playlist.
    * @param {string} playlistName - The name of the playlist to add the song to.
    * @param {{ title: string, artist: string, genre: string, duration: number }} song - The song to add to the playlist.
    * @throws {Error} If the playlist is not found.
    */
-  const addSongToPlaylist = (playlistName, song) => {};
+
+  
+  const addSongToPlaylist = (playlistName, song) => {
+
+    //Guardo en variable playList la busqueda de  si existe la playlist:
+    let playList = playlists.find(playlist => playlist.name === playlistName);
+
+
+    //Lanzar error si la playlist no existe
+    if (!playList) {
+      throw new Error(`La playlist ${playlistName} no existe`);
+    };
+
+    //Guardar la canción en su playlist:
+    
+    
+  
+  };
+  
 
   /**
    * Removes a song from a specific playlist.
@@ -84,6 +100,17 @@ const musicCatalog = () => {
 
   return { createPlaylist, addSongToPlaylist, removeSongFromPlaylist, sortSongs, getAllPlaylists, removePlaylist, favoriteSong };
 };
-}
+
+
+const catalog = musicCatalog();
+catalog.createPlaylist('Rock Classics');
+//Crear una canción
+const song = { title: 'Billie Jean', artist: 'Michael Jackson', genre: 'Pop', duration: 300 };
+console.log(song);
+
+catalog.addSongToPlaylist('Rock Classics', song);
+
+
+
 
 export default musicCatalog;
