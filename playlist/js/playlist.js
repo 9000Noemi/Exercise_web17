@@ -46,8 +46,7 @@ const musicCatalog = () => {
   const removePlaylist = (playlistName) => {
     playlists = playlists.filter(playlist => playlist.name !== playlistName);
   };
-  
-        
+          
   /**
    * Adds a song to a specific playlist.
    * @param {string} playlistName - The name of the playlist to add the song to.
@@ -57,10 +56,9 @@ const musicCatalog = () => {
 
   
   const addSongToPlaylist = (playlistName, song) => {
-
+    
     //Guardo en variable playList la busqueda de  si existe la playlist:
-    let playList = playlists.find(playlist => playlist.name === playlistName);
-
+    const playList = playlists.find(playlist => playlist.name === playlistName);
 
     //Lanzar error si la playlist no existe
     if (!playList) {
@@ -69,25 +67,109 @@ const musicCatalog = () => {
 
     //Guardar la canción en su playlist:
     
-    
+    playlists = playlists.map(playlistItem => {
+
+      if (playlistItem.name === playlistName) {
+        // añadir nuevo tema
+        const newSongs = [...playlistItem.songs, {
+          title: song.title,
+          artist: song.artist,
+          genre: song.genre,
+          duration: song.duration,
+          favorite: false
+        }]
+
+        // retornar el playlist modificado
+        return {...playlistItem, songs: newSongs }
+          
+      }
+      
+      /// si no hay que mappearlo porque no coincide con el nombre de la playlist no lo hacemos
+      return playlistItem;
+    })
   
   };
   
-
   /**
    * Removes a song from a specific playlist.
    * @param {string} playlistName - The name of the playlist to remove the song from.
    * @param {string} title - The title of the song to remove.
    * @throws {Error} If the playlist or song is not found.
    */
-  const removeSongFromPlaylist = (playlistName, title) => {};
+  const removeSongFromPlaylist = (playlistName, title) => {
+    //Buscar su existe la playlist y si no lanzar error:
+    const findPlayList = playlists.find(playlist => playlist.name === playlistName);
+
+    if (!findPlayList) {
+      throw new Error(`La playlist ${playlistName} no existe`);
+    };
+
+    //Buscar si existe la canción y si no lanzar error:
+    const findSong = playlists.find(songInPlayList => songInPlayList.songs.title === title);
+
+    if (!findSong) {
+      throw new Error(`La canción ${title} no existe`);
+    };
+
+
+    playlists = playlists.map(playlistItem => {
+
+      if (playlistItem.name === playlistName) {
+
+        //Creamos una nueva lista con las canciones sin la cancion que se ha querido eliminar
+        updatedSongs = playlistItem.songs.filter(songItem => songItem.title !== title);
+
+        // retornar el playlist modificado
+        return {...playlistItem, songs: updatedSongs }
+          
+      }
+      
+      /// si no hay que mappearlo porque no coincide con el nombre de la playlist no lo hacemos
+      return playlistItem;
+    })
+
+  };
 
   /**
    * Marks a song as a favorite or removes the favorite status.
    * @param {string} playlistName - The name of the playlist containing the song.
    * @param {string} title - The title of the song to mark as a favorite.
    */
-  const favoriteSong = (playlistName, title) => {};
+  const favoriteSong = (playlistName, title) => {
+
+    //Buscar si existe la playlist y el titulo y si no lanzar un error:
+
+    const findPlayList = playlists.find(playlist => playlist.name === playlistName);
+
+    if (!findPlayList) {
+      throw new Error(`La playlist ${playlistName} no existe`);
+    };
+
+    const findSong = findPlayList.songs.find(songInPlayList => songInPlayList.title === title);
+
+    if (!findSong) {
+      throw new Error(`La canción ${title} no existe`);
+    };
+
+
+    //Recorrer las playlists buscando la playlistname:
+
+    playlists = playlists.map(playlistItem => {
+
+      if (playlistItem.songs === title) {
+
+          //Creamos una nueva lista con las canciones actualizando la propiedad a true:
+          updatedSongs = playlistItem.songs.map(songItem => songItem.favorite === true)
+
+          // retornar el playlist modificado
+          return {...playlistItem, songs: updatedSongs }
+
+        /// si no hay que mappearlo porque no coincide con el nombre de la playlist no lo hacemos
+      return playlistItem;
+    }})
+
+
+  };
 
   /**
    * Sorts songs in a specific playlist by a given criterion (title, artist, or duration).
@@ -104,13 +186,15 @@ const musicCatalog = () => {
 
 const catalog = musicCatalog();
 catalog.createPlaylist('Rock Classics');
+
+
 //Crear una canción
 const song = { title: 'Billie Jean', artist: 'Michael Jackson', genre: 'Pop', duration: 300 };
-console.log(song);
+
 
 catalog.addSongToPlaylist('Rock Classics', song);
 
-
+console.log(catalog.removeSongFromPlaylist('Rock Classics', 'HOla'))
 
 
 export default musicCatalog;
