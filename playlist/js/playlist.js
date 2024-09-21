@@ -152,21 +152,26 @@ const musicCatalog = () => {
     };
 
 
-    //Recorrer las playlists buscando la playlistname:
+    //Recorrer las playlists buscando la playlistName:
 
-    playlists = playlists.map(playlistItem => {
+    playlists.map(playlistItem => {
 
-      if (playlistItem.songs === title) {
+      if (playlistItem.name === playlistName) {
 
-          //Creamos una nueva lista con las canciones actualizando la propiedad a true:
-          updatedSongs = playlistItem.songs.map(songItem => songItem.favorite === true)
+        const updatedSongs = playlistItem.songs.map(songItem => {
+          if (songItem.title === title){  
+            songItem.favorite = true  
+          }
 
-          // retornar el playlist modificado
-          return {...playlistItem, songs: updatedSongs }
-
+          return songItem
+        })
+      
+        // retornar el playlist modificado
+        return {...playlistItem, songs: updatedSongs}
+      }
         /// si no hay que mappearlo porque no coincide con el nombre de la playlist no lo hacemos
       return playlistItem;
-    }})
+    })
 
 
   };
@@ -186,15 +191,10 @@ const musicCatalog = () => {
 
 const catalog = musicCatalog();
 catalog.createPlaylist('Rock Classics');
-
-
 //Crear una canción
 const song = { title: 'Billie Jean', artist: 'Michael Jackson', genre: 'Pop', duration: 300 };
-
-
 catalog.addSongToPlaylist('Rock Classics', song);
 
-console.log(catalog.removeSongFromPlaylist('Rock Classics', 'HOla'))
 
 
 export default musicCatalog;
