@@ -105,7 +105,8 @@ const musicCatalog = () => {
     };
 
     //Buscar si existe la canción y si no lanzar error:
-    const findSong = playlists.find(songInPlayList => songInPlayList.songs.title === title);
+    const findSong = findPlayList.songs.find(songInPlayList => songInPlayList.title === title);
+  
 
     if (!findSong) {
       throw new Error(`La canción ${title} no existe`);
@@ -117,7 +118,8 @@ const musicCatalog = () => {
       if (playlistItem.name === playlistName) {
 
         //Creamos una nueva lista con las canciones sin la cancion que se ha querido eliminar
-        updatedSongs = playlistItem.songs.filter(songItem => songItem.title !== title);
+        const updatedSongs = playlistItem.songs.filter(songItem => songItem.title !== title);
+        
 
         // retornar el playlist modificado
         return {...playlistItem, songs: updatedSongs }
@@ -144,6 +146,8 @@ const musicCatalog = () => {
     if (!findPlayList) {
       throw new Error(`La playlist ${playlistName} no existe`);
     };
+
+    
 
     const findSong = findPlayList.songs.find(songInPlayList => songInPlayList.title === title);
 
